@@ -1,0 +1,14 @@
+{
+  "name": "anirescue-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=frontend",
+    "seed": "npm run seed --workspace=backend",
+    "start": "npm run start --workspace=backend"
+  }
+}
