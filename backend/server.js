@@ -9,6 +9,17 @@ require('./config/db');
 
 const app = express();
 
+// ─── Vercel Service Route Prefix Safeguard ───────────────────────────────────
+// Vercel Services may strip the '/api' prefix when forwarding traffic.
+// This middleware restores the '/api' prefix if it is missing, ensuring Express router matching.
+app.use((req, res, next) => {
+  if (!req.url.startsWith('/api') && !req.url.startsWith('/uploads')) {
+    // If the path has a leading slash, prepend '/api' (or '/api/' if no slash, but req.url always has leading slash)
+    req.url = '/api' + (req.url.startsWith('/') ? '' : '/') + req.url;
+  }
+  next();
+});
+
 // ─── Rate Limiting ──────────────────────────────────────────────────────────
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
